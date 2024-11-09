@@ -39,7 +39,7 @@ def getWeatherReport(place):
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[
-            {"role": "system", "content": "You are a helpful assistant. You will be provided an JSON output of a weather report. Could you please make this a report, but phrase it in a passive agressive or just plain agressive tone to piss the reader off? You are required to mention the location's name. If you can insult the location with specific place details Dthat is even better, but do not feel pressured to. If there is no JSON data, do not make a weather report and just output \'Sorry, we broke!\'"},
+            {"role": "system", "content": "You are a helpful assistant. You will be provided an JSON output of a weather report. Could you please make this a report, but phrase it in a passive agressive or just plain agressive tone to piss the reader off? You are required to mention the location's name. If you can insult the location with specific place details that is even better, but do not feel pressured to. Make sure to mention all temperatures in both Farenheight and Celsius. If there is no JSON data, do not make a weather report and just output \'Sorry, we broke!\'. Do not use emojis."},
             {
                 "role": "user",
                 "content": str(weather_data)
