@@ -56,6 +56,7 @@ origins = [
     "https://neko.hackclub.app/AngyWeather/site.html",
     "http://localhost",
     "http://localhost:41181",
+    "https://api.neko.hackclub.app"
 ]
 
 app.add_middleware(
