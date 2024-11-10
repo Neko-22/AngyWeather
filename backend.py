@@ -2,6 +2,7 @@ import requests
 from traceback import format_exc
 from openai import OpenAI
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import os
 
 def get_posts(place):
@@ -46,9 +47,25 @@ def getWeatherReport(place):
             }
         ]
     )
-    return completion.choices[0].message.content
+    return completion.choices[0].message
 
 app = FastAPI()
+
+origins = [
+    "http://localhost.n/a.com",
+    "https://localhost.n/a.com",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/get-weather")
 def weather(place: str):
-    return {getWeatherReport(place)}
+    return getWeatherReport(place)
