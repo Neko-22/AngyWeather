@@ -5,6 +5,9 @@ from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from typing import Annotated
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def get_posts(place):
     city = place
