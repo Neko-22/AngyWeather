@@ -67,6 +67,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/get-weather")
+@app.post("/get-weather")
 def weather(place: str):
     return getWeatherReport(place)
