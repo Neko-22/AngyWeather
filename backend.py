@@ -1,9 +1,10 @@
 import requests
 from traceback import format_exc
 from openai import OpenAI
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
 import os
+from typing import Annotated
 
 def get_posts(place):
     city = place
@@ -68,5 +69,5 @@ app.add_middleware(
 )
 
 @app.post("/get-weather")
-def weather(place: str):
+async def weather(place: Annotated[str, Form()]):
     return getWeatherReport(place)
