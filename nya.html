@@ -7,36 +7,33 @@
 </form>
 
 <script>
-    // Wait for the form to be submitted
-    document.querySelector('form').addEventListener('submit', async function(event) {
-      event.preventDefault(); // Prevent page refresh
+    // Select your form and add an event listener for the 'submit' event
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();  // Prevent the form from submitting and reloading the page
   
-      const place = document.getElementById('place').value; // Get the value from the input field
+      const place = document.getElementById('place').value;  // Get the value entered in the 'place' input field
   
-      try {
-        // Make the POST request to the API
-        const response = await fetch('https://api.neko.hackclub.app/get-weather', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: new URLSearchParams({ place: place }) // Send the place as form data
-        });
-  
-        // Parse the JSON response
-        const data = await response.json();
-  
-        // Check if the response contains 'content' and display it
+      // Make the POST request to the API
+      fetch('https://api.neko.hackclub.app/get-weather', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: new URLSearchParams({ place: place })  // Send the place data as form data
+      })
+      .then(response => response.json())  // Parse the response as JSON
+      .then(data => {
         if (data.content) {
-          const resultDiv = document.createElement('div');
-          resultDiv.innerText = data.content;
-          document.body.appendChild(resultDiv); // Add the result to the page
+          const resultDiv = document.createElement('div');  // Create a new div for displaying the content
+          resultDiv.innerText = data.content;  // Insert the weather content into the div
+          document.body.appendChild(resultDiv);  // Append the result div to the body of the page
         } else {
-          alert('Error: No content returned from the server.');
+          alert('No weather data received.');
         }
-      } catch (error) {
+      })
+      .catch(error => {
         console.error('Error:', error);
-        alert('There was an error processing your request.');
-      }
+        alert('There was an error with the request.');
+      });
     });
   </script>
