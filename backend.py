@@ -56,8 +56,8 @@ def getWeatherReport(place):
 app = FastAPI()
 
 origins = [
-    "http://neko.hackclub.app/AngyWeather/site.html",
-    "https://neko.hackclub.app/AngyWeather/site.html",
+    "http://neko.hackclub.app/AngyWeather/nya.html",
+    "https://neko.hackclub.app/AngyWeather/nya.html",
     "http://localhost",
     "http://localhost:41181",
     "https://api.neko.hackclub.app"
