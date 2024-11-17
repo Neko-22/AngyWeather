@@ -1,7 +1,5 @@
-body {
-  background-color: #FF00BB;
-}
-text {
+* {
   color: #F00066;
+  background-color: #FF00BB;
   font-family: 'Comic Sans MS', 'Comic Sans';
 } 
