@@ -8,7 +8,7 @@ from typing import Annotated
 from dotenv import load_dotenv
 
 load_dotenv()
-print(os.getenv('WEATHER_API_KEY'))
+
 def get_posts(place):
     city = place
     city = city.replace("+", "%2b")
