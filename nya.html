@@ -5,36 +5,3 @@
     </label>
     <button>Send</button>
 </form>
-
-<script>
-    // Select your form and add an event listener for the 'submit' event
-    document.querySelector('form').addEventListener('submit', function(event) {
-  event.preventDefault();  // Prevent form from submitting and reloading the page
-
-  const place = document.getElementById('place').value;  // Get the value entered in the 'place' input field
-
-  // Make the POST request to the API
-  fetch('https://api.neko.hackclub.app/get-weather', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({ place: place }),  // Send the place data as form data
-    credentials: 'same-origin'  // Optional, if using cookies or credentials
-  })
-  .then(response => response.json())  // Parse the response as JSON
-  .then(data => {
-    if (data.content) {
-      const resultDiv = document.createElement('div');  // Create a new div for displaying the content
-      resultDiv.innerText = data.content;  // Insert the weather content into the div
-      document.body.appendChild(resultDiv);  // Append the result div to the body of the page
-    } else {
-      alert('No weather data received.');
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('There was an error with the request.');
-  });
-});
-  </script>
