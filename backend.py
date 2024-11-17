@@ -56,12 +56,11 @@ def getWeatherReport(place):
 app = FastAPI()
 
 origins = [
-    "http://neko.hackclub.app/AngyWeather/nya.html",
-    "https://neko.hackclub.app/AngyWeather/nya.html",
+    "http://neko.hackclub.app/\",
+    "https://neko.hackclub.app/",
     "http://localhost",
     "http://localhost:41181",
     "https://api.neko.hackclub.app"
-    "https://api.neko.hackclub.app/get-weather"
 ]
 
 app.add_middleware(
