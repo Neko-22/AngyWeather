@@ -15,7 +15,7 @@ def get_posts(place):
     city = city.replace(" ", "+")
 
     url = f'https://api.weatherapi.com/v1/current.json'
-    key = f"{os.environ.get('WEATHER_API_KEY')}"
+    key = f"{os.getenv('WEATHER_API_KEY')}"
     try:
         response = requests.post(f'{url}?key={key}&q={city}&days=1&aqi=no&alerts=no')
 
