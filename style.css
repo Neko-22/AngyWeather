@@ -3,4 +3,6 @@
   background-color: #FF00BB;
   font-family: 'Comic Sans MS', 'Comic Sans';
   user-select: none;
+  padding: 48px;
+  border-radius: 48px;
 } 
