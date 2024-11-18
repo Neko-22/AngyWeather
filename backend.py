@@ -9,28 +9,6 @@ from typing import Annotated
 from dotenv import load_dotenv
 from starlette.middleware.base import BaseHTTPMiddleware
 
-class CustomMiddleware(BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
-        # Process the request
-        response = await call_next(request)
-        
-        # Check if the status is 404 and the URL contains "wp-"
-        if response.status_code == 404 and "wp-" in str(request.url.path):
-            # Prepare custom response with 200 status, zstd encoding, and text/html content type
-            custom_response = Response(
-                content="Bomb",  # Custom content you want to send
-                status_code=200,
-                headers={
-                    'Content-Encoding': 'zstd',
-                    'Content-Type': 'text/html'
-                }
-            )
-            return custom_response
-
-        # If no conditions are met, return the original response
-        return response
-
-
 load_dotenv()
 
 def get_posts(place):
@@ -77,6 +55,27 @@ def getWeatherReport(place):
     )
     return completion.choices[0].message
 
+class CustomMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Process the request
+        response = await call_next(request)
+        
+        # Check if the status is 404 and the URL contains "wp-"
+        if response.status_code == 404 and "wp-" in str(request.url.path):
+            # Prepare custom response with 200 status, zstd encoding, and text/html content type
+            custom_response = Response(
+                content="Bomb",  # Custom content you want to send
+                status_code=200,
+                headers={
+                    'Content-Encoding': 'zstd',
+                    'Content-Type': 'text/html'
+                }
+            )
+            return custom_response
+
+        # If no conditions are met, return the original response
+        return response
+
 app = FastAPI()
 
 origins = [
@@ -87,8 +86,8 @@ origins = [
     "https://api.neko.hackclub.app"
 ]
 
+app.add_middleware(CustomMiddleware)
 app.add_middleware(
-    CustomMiddleware,
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
