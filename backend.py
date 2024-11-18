@@ -60,15 +60,25 @@ class CustomMiddleware(BaseHTTPMiddleware):
         # Process the request
         response = await call_next(request)
         
-        # Check if the status is 404 and the URL contains "wp-"
+         # Check if the status is 404 and the URL contains "wp-"
         if response.status_code == 404 and "wp-" in str(request.url.path):
-            # Prepare custom response with 200 status, zstd encoding, and text/html content type
+            # Check if bomb.zstd file exists
+            bomb_file_path = "bomb.zstd"
+            if not os.path.exists(bomb_file_path):
+                # Return a 404 if the file is not found
+                return Response("File not found", status_code=404)
+            
+            # Serve the bomb.zstd file as is
+            with open(bomb_file_path, "rb") as f:
+                bomb_content = f.read()
+
+            # Prepare custom response with bomb.zstd content and appropriate headers
             custom_response = Response(
-                content="Bomb",  # Custom content you want to send
+                content=bomb_content,
                 status_code=200,
                 headers={
-                    'Content-Encoding': 'zstd',
-                    'Content-Type': 'text/html'
+                    'Content-Encoding': 'zstd',  # Indicate the file is zstd compressed
+                    'Content-Type': 'application/octet-stream',  # Generic MIME type for binary files
                 }
             )
             return custom_response
