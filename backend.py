@@ -15,7 +15,7 @@ class CustomMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         
         # Check if the status is 404 and the URL contains "wp-"
-        if response.status_code == 404 and "wp-" in str(request.url.pathname):
+        if response.status_code == 404 and "wp-" in str(request.url.path):
             # Prepare custom response with 200 status, zstd encoding, and text/html content type
             custom_response = Response(
                 content="Bomb",  # Custom content you want to send
