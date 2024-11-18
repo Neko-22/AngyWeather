@@ -1,11 +1,35 @@
 import requests
 from traceback import format_exc
 from openai import OpenAI
-from fastapi import FastAPI, Form
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from typing import Annotated
 from dotenv import load_dotenv
+from starlette.middleware.base import BaseHTTPMiddleware
+
+class CustomMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Process the request
+        response = await call_next(request)
+        
+        # Check if the status is 404 and the URL contains "wp-"
+        if response.status_code == 404 and "wp-" in str(request.url.pathname):
+            # Prepare custom response with 200 status, zstd encoding, and text/html content type
+            custom_response = Response(
+                content="Bomb",  # Custom content you want to send
+                status_code=200,
+                headers={
+                    'Content-Encoding': 'zstd',
+                    'Content-Type': 'text/html'
+                }
+            )
+            return custom_response
+
+        # If no conditions are met, return the original response
+        return response
+
 
 load_dotenv()
 
@@ -63,6 +87,7 @@ origins = [
     "https://api.neko.hackclub.app"
 ]
 
+app.add_middleware(CustomMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -74,3 +99,7 @@ app.add_middleware(
 @app.post("/get-weather")
 async def weather(place: Annotated[str, Form()]):
     return getWeatherReport(place)
+
+@app.get("/wp-example")
+async def wp_example():
+    return {"message": "WordPress related path"}
