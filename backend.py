@@ -87,8 +87,8 @@ origins = [
     "https://api.neko.hackclub.app"
 ]
 
-app.add_middleware(CustomMiddleware)
 app.add_middleware(
+    CustomMiddleware,
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
